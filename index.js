@@ -83,7 +83,7 @@ async function dep() {
         execa.commandSync(`curl -LO ${url}`)
       }
     }
-    execa.commandSync('sudo chmod +x deployer.phar')
+    execa.commandSync('chmod +x deployer.phar')
     dep = 'deployer.phar'
   }
 
