@@ -13,19 +13,18 @@ void async function main() {
 }()
 
 async function ssh() {
-  if (core.getBooleanInput('self-hosted')) {
-    return;
-  }
-
   let sshHomeDir = `${process.env['HOME']}/.ssh`
 
   if (!fs.existsSync(sshHomeDir)) {
     fs.mkdirSync(sshHomeDir)
   }
 
-  let authSock = '/tmp/ssh-auth.sock'
-  execa.sync('ssh-agent', ['-a', authSock])
-  core.exportVariable('SSH_AUTH_SOCK', authSock)
+  // If it is self-hosted we don't need to start the ssh agent
+  if (!core.getBooleanInput('self-hosted')) {
+    let authSock = '/tmp/ssh-auth.sock'
+    execa.sync('ssh-agent', ['-a', authSock])
+    core.exportVariable('SSH_AUTH_SOCK', authSock)
+  }
 
   let privateKey = core.getInput('private-key')
   if (privateKey !== '') {
