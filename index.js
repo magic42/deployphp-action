@@ -54,7 +54,7 @@ async function accessToken() {
 
   if (accessToken !== '' && accessTokenUser !== '') {
     // Get git remote and convert to https
-    let {stdout} = execa.commandSync('git config --get remote.origin.url')
+    let {stdout} = execa.commandSync('/usr/bin/git config --get remote.origin.url')
     let remote = stdout.trim()
     if (remote.startsWith('git@')) {
       // Example: git@github.com:owner/repo.git
@@ -66,7 +66,7 @@ async function accessToken() {
     remote = remote.replace(/^https:\/\//, `https://${accessTokenUser}:${accessToken}@`)
 
     // Set remote to new so it will use the token
-    execa.commandSync(`git remote set-url origin ${remote}`)
+    execa.commandSync(`/usr/bin/git remote set-url origin ${remote}`)
   }
 }
 
