@@ -23,6 +23,15 @@
       # Self hosted runners don't need the SSH configuration or the SSH agent to be started
       self-hosted: false
 
+      # Access token to set remote to use before running the deployer task.
+      # Can be used if you don't want to have private keys
+      # Optional.
+      access_token: ${{ secrets.ACCESS_TOKEN }}
+
+      # User for the access token.
+      # Required to use access_token, otherwise optional.
+      access_token_user: 'username'
+
       # Private key for connecting to remote hosts. To generate private key:
       # `ssh-keygen -o -t rsa -C 'action@deployer.org'`.
       # Optional.

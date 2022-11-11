@@ -13,6 +13,16 @@ inputs:
     default: 'false'
     description: Whether the action is running on a self-hosted runner.
 
+  access-token:
+    required: false
+    default: ''
+    description: The access token for the repository.
+
+  access-token-user:
+    required: false
+    default: ''
+    description: The user for the access token.
+
   private-key:
     required: false
     default: ''
