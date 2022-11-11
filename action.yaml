@@ -23,6 +23,11 @@ inputs:
     default: ''
     description: The user for the access token.
 
+  access-token-repository:
+    required: false
+    default: ''
+    description: The repository for the access token
+
   private-key:
     required: false
     default: ''

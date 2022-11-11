@@ -51,22 +51,21 @@ async function ssh() {
 async function accessToken() {
   let accessToken = core.getInput('access-token')
   let accessTokenUser = core.getInput('access-token-user')
+  let tokenRepository = core.getInput('access-token-repository')
 
-  if (accessToken !== '' && accessTokenUser !== '') {
-    // Get git remote and convert to https
-    let {stdout} = execa.commandSync('/usr/bin/git config --get remote.origin.url')
-    let remote = stdout.trim()
-    if (remote.startsWith('git@')) {
+  if (accessToken !== '' && accessTokenUser !== '' && tokenRepository !== '') {
+    // Convert to https if it's a git url
+    if (tokenRepository.startsWith('git@')) {
       // Example: git@github.com:owner/repo.git
-      remote = remote.replace(/:/, '/') // Replace the colon with a slash
-      remote = remote.replace(/^git@/, 'https://') // Replace the git@ with https://
+      tokenRepository = tokenRepository.replace(/:/, '/') // Replace the colon with a slash
+      tokenRepository = tokenRepository.replace(/^git@/, 'https://') // Replace the git@ with https://
     }
 
     // Add access token to remote so https://user:token@github.com/owner/repo.git
-    remote = remote.replace(/^https:\/\//, `https://${accessTokenUser}:${accessToken}@`)
+    tokenRepository = tokenRepository.replace(/^https:\/\//, `https://${accessTokenUser}:${accessToken}@`)
 
-    // Set remote to new so it will use the token
-    execa.commandSync(`/usr/bin/git remote set-url origin ${remote}`)
+    // Set remote, so it will use the token, init is in case it isn't tracked
+    execa.commandSync(`/usr/bin/git init && /usr/bin/git remote set-url origin ${tokenRepository}`)
   }
 }
 

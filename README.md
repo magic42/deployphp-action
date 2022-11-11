@@ -32,6 +32,11 @@
       # Required to use access_token, otherwise optional.
       access_token_user: 'username'
 
+      # Repository for the access token.
+      # This is required as otherwise we can't set the remote properly.
+      # Required to use access_token, otherwise optional.
+      access_token_repository: 'git@github.com:username/repo.git'
+
       # Private key for connecting to remote hosts. To generate private key:
       # `ssh-keygen -o -t rsa -C 'action@deployer.org'`.
       # Optional.
