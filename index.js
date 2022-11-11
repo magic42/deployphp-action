@@ -65,7 +65,8 @@ async function accessToken() {
     tokenRepository = tokenRepository.replace(/^https:\/\//, `https://${accessTokenUser}:${accessToken}@`)
 
     // Set remote, so it will use the token, init is in case it isn't tracked
-    execa.commandSync(`/usr/bin/git init && /usr/bin/git remote set-url origin ${tokenRepository}`)
+    execa.commandSync('/usr/bin/git config --global init.defaultBranch master && /usr/bin/git init')
+    execa.commandSync(`/usr/bin/git remote set-url origin ${tokenRepository}`)
   }
 }
 
