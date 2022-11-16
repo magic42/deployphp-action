@@ -54,7 +54,7 @@ async function accessToken() {
   let tokenRepository = core.getInput('access-token-repository')
 
   if (accessToken !== '' && accessTokenUser !== '' && tokenRepository !== '') {
-    // Convert to https if it's a git url
+    // Convert to https if it's a git SSH url
     if (tokenRepository.startsWith('git@')) {
       // Example: git@github.com:owner/repo.git
       tokenRepository = tokenRepository.replace(/:/, '/') // Replace the colon with a slash
@@ -64,7 +64,8 @@ async function accessToken() {
     // Add access token to remote so https://user:token@github.com/owner/repo.git
     tokenRepository = tokenRepository.replace(/^https:\/\//, `https://${accessTokenUser}:${accessToken}@`)
 
-    // Set remote, so it will use the token, init is in case it isn't tracked
+    // Set remote, so it will use the token, init is required as it isn't tracked
+    // This allows us to retrieve this later in the deployment script
     execa.commandSync('/usr/bin/git init')
     execa.commandSync(`/usr/bin/git remote add origin ${tokenRepository}`)
   }
